@@ -134,7 +134,7 @@ class Deposit:
                 amount = float(input("Enter the amount: "))
                 balance = check.checking_account()
                 balance += amount  #To decrease the amount of the account
-                print(f"Withdraw completed successfully, your new checking account balance is: {balance}$")
+                print(f"Deposit completed successfully, your new checking account balance is: {balance}$")
                 user_input = input("Press 'Enter' to return to main menu ")
 
             elif user_input == "3":
