@@ -147,7 +147,8 @@ class Deposit:
 #Class 6
 # --------------- FOR TRANSFER ---------------#
 class Transfer:
-    pass
+    def transfer_from():
+        pass
 # --------------------------------------------#
 
 #Class 7
@@ -177,7 +178,7 @@ def main():
         elif user_input == "2":
             Deposit.deposit_money()
         elif user_input == "3":
-            Transfer
+            Transfer.transfer_from()
         elif user_input == "4":
             AddNewCustomer.createAccounts_page()
         elif user_input == "5":
