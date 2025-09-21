@@ -4,6 +4,9 @@ and its digital services are constantly being developed
  to meet the modern needs of costumers.</p>
 
 
+
+<h3>Challenges</h3>
+<p>I faces some challenges that make an issues in </p>
 <!-- project name and description
 a table of app functionality / user stories (already provided)
 technologies used

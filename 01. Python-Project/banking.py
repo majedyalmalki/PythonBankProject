@@ -3,7 +3,7 @@ import csv
 #Class 1
 # --------------- FOR Login & Register ---------------#
 class Bank:
-    def __init__(self, username):
+    def __init__():
         username = username
 
         
@@ -18,11 +18,11 @@ class Bank:
         print(f"\nWelcome {username}!!, Your account created successfully")
         user_input = input("Press 'Enter' to return to main menu ")
 
-
 # ------------------------------------------------------#
 
+
 #Class 2
-# --------------- FOR CHECKING, SAVINGS, OR BOTH ---------------#
+# --------------- FOR CREATING CHECKING, SAVINGS, OR BOTH ACCOUNTS ---------------#
 class AddNewCustomer:
     def createAccounts_page():
         is_running = True
@@ -39,8 +39,8 @@ class AddNewCustomer:
             elif user_input =="3":
                 is_running = False
             else: print("Enter a valid choice !!")
-    
-    
+
+
     #To create checking account
     def create_checking_account():
         print("Your checking account created successfully")
@@ -51,17 +51,23 @@ class AddNewCustomer:
         print("Your saving account created successfully")
         user_input = input("Press 'Enter' to return to main menu ")
 
+
+#Class 3
+# --------------- FOR CHECK BALANCE ---------------#
+class check:
     #Checking account balance
-    def checking_account(amount):
-        checking_balance = 0
+    def checking_account():
+        checking_balance = 200
+        return checking_balance
 
     #Savings account balance
     def saving_account():
-        saving_balance = 0
+        saving_balance = 200
+        return saving_balance 
 
 # --------------------------------------------------------------#
 
-#Class 3
+#Class 4
 # --------------- FOR WITHDRAW ---------------#
 class Withdraw:
     def withdraw_money():
@@ -73,55 +79,78 @@ class Withdraw:
             print("2. Savings Account")
             print("3. Back to the past page")
             user_input = input("Enter your choice: ")
+            
             if user_input == "1":
                 print(" -- Checking account withdraw -- ")
-                user_input = input("Enter the amount: ")
-                amount = int(user_input)
-                amount -= AddNewCustomer.checking_account() #To decrease the amount of the account
+                amount = float(input("Enter the amount: "))
+                balance = check.checking_account()
+                if amount <= balance:
+                    balance -= amount  #To decrease the amount of the account
+                    print(f"Withdraw completed successfully, your new checking account balance is: {balance}$")
+                    user_input = input("Press 'Enter' to return to main menu ")
+                else:
+                    print("You don't have this amount of money !!")
+
             elif user_input == "2":
                 print(" -- Savings account withdraw -- ")
-                user_input = input("Enter the amount: ")
-                amount = int(user_input)
-                amount -= AddNewCustomer.saving_account() #To decrease the amount of the account
+                amount = float(input("Enter the amount: "))
+                balance = check.checking_account()
+                if amount <= balance:
+                    balance -= amount  #To decrease the amount of the account
+                    print(f"Withdraw completed successfully, your new checking account balance is: {balance}$")
+                    user_input = input("Press 'Enter' to return to main menu ")
+                else:
+                    print("You don't have this amount of money !!")
+
             elif user_input == "3":
                 is_running = False
             else:
                 print("Enter a valid choice !!")
 # --------------------------------------------#
 
-#Class 4
+#Class 5
 # --------------- FOR DEPOSIT ---------------#
 class Deposit:
     def deposit_money():
         is_running = True
         Bank.login()
         while is_running:
-            print("Which account do you want to Deposit to?")
+            print("Which account do you want to deposit to?")
             print("1. Checking Account")
             print("2. Savings Account")
             print("3. Back to the past page")
             user_input = input("Enter your choice: ")
+            
             if user_input == "1":
-                print("-- Checking account deposit --")
-                user_input = input("Enter the amount: ")
-                user_input += AddNewCustomer.checking_account() #To increase the amount of the account
+                print(" -- Deposit to checking account -- ")
+                amount = float(input("Enter the amount: "))
+                balance = check.checking_account()
+                balance += amount  #To decrease the amount of the account
+                print(f"Deposit completed successfully, your new checking account balance is: {balance}$")
+                user_input = input("Press 'Enter' to return to main menu ")
+
             elif user_input == "2":
-                print("-- Savings account deposit -- ")
-                user_input = input("Enter the amount: ")
-                user_input += AddNewCustomer.saving_account() #To increase the amount of the account
+                print(" -- Deposit to savings account -- ")
+                amount = float(input("Enter the amount: "))
+                balance = check.checking_account()
+                balance += amount  #To decrease the amount of the account
+                print(f"Withdraw completed successfully, your new checking account balance is: {balance}$")
+                user_input = input("Press 'Enter' to return to main menu ")
+
             elif user_input == "3":
                 is_running = False
             else:
                 print("Enter a valid choice !!")
+        
 # -------------------------------------------#
 
-#Class 5
+#Class 6
 # --------------- FOR TRANSFER ---------------#
 class Transfer:
     pass
 # --------------------------------------------#
 
-#Class 6
+#Class 7
 # --------------- FOR OVER DRAFT PROTECTION ---------------#
 class overDraftProtection:
     pass
@@ -129,7 +158,7 @@ class overDraftProtection:
 
 
 
-# --------------- Start Page ---------------#
+# --------------- Main menu Page ---------------#
 def main():
     is_running = True
     while is_running:
