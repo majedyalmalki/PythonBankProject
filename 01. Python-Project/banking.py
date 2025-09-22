@@ -71,7 +71,7 @@ class check:
 
     #Check for Savings account balance
     def saving_account():
-        saving_balance = 35
+        saving_balance = 150
         return saving_balance 
 
 # --------------------------------------------------------------#
@@ -95,7 +95,9 @@ class Withdraw:
                 amount = float(input("Enter the amount💲: "))
                 balance = check.checking_account()
                 
-                if amount <= balance:
+                if amount > 100:
+                    print("You cannot withdraw more than 100$ !!\n")
+                elif amount <= balance:
                     balance -= amount  #To decrease the amount from balance account
                     print(f"Withdraw completed successfully✅, your new checking account balance is: {balance}$💵")
                     user_input = input("Press 'Enter' to return to withdraw menu📃 ")
@@ -107,7 +109,9 @@ class Withdraw:
                 print("\n\n -- Savings account withdraw -- ")
                 amount = float(input("Enter the amount💲: "))
                 balance = check.saving_account()
-                if amount <= balance:
+                if amount > 100:
+                    print("You cannot withdraw more than 100$ !!\n")
+                elif amount <= balance:
                     balance -= amount  #To decrease the amount from balance account
                     print(f"Withdraw completed successfully✅, your new saving account balance is: {balance}$")
                     user_input = input("Press 'Enter' to return to withdraw menu📃 ")
@@ -327,12 +331,12 @@ def main():
         print("\n\n======================")
         print("Welcome to the Bank :)")
         print("======================")
-        print("1️⃣: Withdraw")
-        print("2️⃣: Deposit")
-        print("3️⃣: Transfer")
-        print("4️⃣: Create checking & savings accounts")
-        print("5️⃣: Register main account")
-        print("6️⃣: Exit")
+        print("1: Withdraw")
+        print("2: Deposit")
+        print("3: Transfer")
+        print("4: Create checking & savings accounts")
+        print("5: Register main account")
+        print("6: Exit")
         user_input = input("Enter your choice: ")
         if user_input == "1":
             Withdraw.withdraw_money()
