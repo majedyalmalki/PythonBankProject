@@ -1,23 +1,82 @@
 import csv
 
+checking = False
+savings = False
+active = True
+overdraft_count = 0
+
+fieldnames = [
+    'id',
+    'username',
+    'password',
+    'checking',
+    'savings',
+    'overdraft_count'
+]
+
+
 #Class 1
 # --------------- FOR Login & Register ---------------#
 class Bank:
     def __init__():
         username = username
-
+        
+    users = []
+    logged_user = None
+    
+    def save_users():
+        with open('/home/majedyalmalki/code/PythonBankProject/01. Python-Project/bank.csv', mode='w', newline='') as write_file:
+            writer = csv.DictWriter(write_file, fieldnames=fieldnames)
+            writer.writeheader()
+            for user in Bank.users:
+                writer.writerow(user)
+    
+    def load_users():
+        with open('/home/majedyalmalki/code/PythonBankProject/01. Python-Project/bank.csv', mode='r', newline='') as read_file:
+            reader = csv.DictReader(read_file)
+            for row in reader:
+                Bank.users.append(row)
     #For Login
     def login():
-        username = input("Username: ").lower()
-        password = input("Password: ")
-        print(f"\n\nWelcome back {username} 👋!!")
+        cred = None
+        while True:
+            username = input("Username: ").lower()
+            password = input("Password: ")
+            for user in Bank.users:
+                if username == user['username'] and password == user["password"]:
+                    Bank.logged_user = user
+                    return print(f"\n\nWelcome back {username} 👋!!")
+            else:
+                print("Wrong username or password !!\n")
+                continue
     
     #For register
     def register():
         username = input("Username: ").lower()
         password = input("Password: ")
-        print(f"\nWelcome {username}!!, Your account created successfully ✅")
-        user_input = input("Press 'Enter' to return to main menu 🔙 ")
+        id = 1000  
+
+        with open("/home/majedyalmalki/code/PythonBankProject/01. Python-Project/bank.csv", 'r') as read_file:
+            reader = csv.DictReader(read_file)
+            existing_ids = [int(row['id']) for row in reader]
+            if existing_ids:
+                id = max(existing_ids) + 1  
+
+        user_data = {
+            'id': id,
+            'username': username,
+            'password': password,
+            'checking': checking,
+            'savings': savings,
+            'overdraft_count': overdraft_count
+        }
+
+        with open("/home/majedyalmalki/code/PythonBankProject/01. Python-Project/bank.csv", 'a', newline='') as write_file:
+            writer = csv.DictWriter(write_file, fieldnames=fieldnames)
+            writer.writerow(user_data)
+        Bank.load_users()
+
+        print("User registered successfully!")
 
 # ------------------------------------------------------#
 
@@ -27,6 +86,7 @@ class Bank:
 class AddNewCustomer:
     def createAccounts_page():
         is_running = True
+        Bank.login()
         while is_running:
             print("\n\n## Which account do you want to create? ##")
             print("1. Create checking account")
@@ -57,17 +117,35 @@ class AddNewCustomer:
 
     #To create checking account
     def create_checking_account():
-        print("\nYour checking account created successfully✅")
+        if Bank.logged_user["checking"] == "False":
+            Bank.logged_user["checking"] = 0
+            print("\nYour checking account created successfully✅")
+            Bank.save_users()
+        else:
+            print("You already have an account !!!")
         user_input = input("Press 'Enter' to return to creating menu 🔙 ")
+
 
     #To create savings account
     def create_saving_account():
-        print("\nYour saving account created successfully✅")
-        user_input = input("Press 'Enter' to return to creating menu 🔙 ")
+        if Bank.logged_user["savings"] == "False":
+            Bank.logged_user["savings"] = 0
+            print("\nYour Savings account created successfully✅")
+            Bank.save_users()
+        else:
+            print("You already have an account !!!")
+            user_input = input("Press 'Enter' to return to creating menu 🔙 ")
         
     def creating_both_accounts():
-        print("\nYour both accounts created successfully✅")
-        user_input = input("Press 'Enter' to return to creating menu 🔙 ")
+        if Bank.logged_user["checking"] == "False" and Bank.logged_user["savings"] == "False":
+            Bank.logged_user["checking"] = 0
+            Bank.logged_user["savings"] = 0
+            print("\nYour checking & savings account has created successfully✅")
+            Bank.save_users()
+            user_input = input("Press 'Enter' to return to creating menu 🔙 ")
+        else:
+            print("You have account already")
+            user_input = input("Press 'Enter' to return to creating menu 🔙 ")
 
 
 #Class 3
@@ -75,13 +153,11 @@ class AddNewCustomer:
 class check:
     #Check for Checking account balance
     def checking_account():
-        checking_balance = 7
-        return checking_balance
+        return Bank.logged_user["checking"]
 
     #Check for Savings account balance
     def saving_account():
-        saving_balance = 3
-        return saving_balance 
+        return Bank.logged_user["savings"]
 
 # --------------------------------------------------------------#
 
@@ -100,17 +176,20 @@ class Withdraw:
             
             #For Choice 1
             if user_input == "1":
-                print("\n\n -- Checking account withdraw -- ")
-                amount = float(input("Enter the amount💲: "))
-                balance = check.checking_account()
+                if Bank.logged_user["checking"] == False:
+                    print("You don't have checking account")
+                else:
+                    print("\n\n -- Checking account withdraw -- ")
+                    amount = float(input("Enter the amount💲: "))
+                    balance = check.checking_account()
                 
                 if amount > 100:
                     print("You cannot withdraw more than 100$ !!\n")
                     
                 #------------------------ Overdraft ----------------------------#
                 elif balance <= 0 and balance >= -100:
-                    balance -= amount + 35
-                    if balance < -100:
+                    Bank.logged_user["checking"] -= amount + 35
+                    if balance > -100:
                         print(f"⛔Your account has been disabled for overdraft two times⛔\nYour new balance is: {balance}")
                     else:
                         print(f"35$ overdraft, your new account balance is: {balance}")
@@ -118,8 +197,9 @@ class Withdraw:
                 #--------------------------------------------------------------------------#
 
                 elif amount <= balance:
-                    balance -= amount  #To decrease the amount from balance account
+                    Bank.logged_user["checking"] -= amount  #To decrease the amount from balance account
                     print(f"Withdraw completed successfully✅, your new checking account balance is: {balance}$💵")
+                    Bank.save_users()
                     user_input = input("Press 'Enter' to return to withdraw menu📃 ")
                 else:
                     print("You don't have this amount of money ❌!!")
@@ -134,7 +214,7 @@ class Withdraw:
 
                 #------------------------ Overdraft ----------------------------#
                 elif balance <= 0 and balance >= -100:
-                    balance -= amount + 35
+                    Bank.logged_user["savings"] -= amount + 35
                     if balance < -100:
                         print(f"⛔Your account has been disabled for overdraft two times⛔\nYour new balance is: {balance}")
                     else:
@@ -144,8 +224,9 @@ class Withdraw:
 
 
                 elif amount <= balance:
-                    balance -= amount  #To decrease the amount from balance account
+                    Bank.logged_user["savings"] -= amount  #To decrease the amount from balance account
                     print(f"Withdraw completed successfully✅, your new saving account balance is: {balance}$")
+                    Bank.save_users()
                     user_input = input("Press 'Enter' to return to withdraw menu📃 ")
                 else:
                     print("You don't have this amount of money ❌!!")
@@ -177,8 +258,9 @@ class Deposit:
                 print(" -- Deposit to checking account -- ")
                 amount = float(input("Enter the amount💲: "))
                 balance = check.checking_account()
-                balance += amount  #To increase the amount of the account
+                Bank.logged_user["checking"] += amount  #To increase the amount of the account
                 print(f"Deposit completed successfully✅, your new checking account balance is: {balance}$")
+                Bank.save_users()
                 user_input = input("Press 'Enter' to return to deposit menu📃 ")
                 
             #For Choice 2
@@ -186,8 +268,9 @@ class Deposit:
                 print(" -- Deposit to savings account -- ")
                 amount = float(input("Enter the amount💲: "))
                 balance = check.saving_account()
-                balance += amount  #To increase the amount of the account
+                Bank.logged_user["checking"] += amount  #To increase the amount of the account
                 print(f"Deposit completed successfully✅, your new saving account balance is: {balance}$")
+                Bank.save_users()
                 user_input = input("Press 'Enter' to return to deposit menu📃 ")
                 
             #For exiting
@@ -252,9 +335,10 @@ class Transfer:
                 SavingsBalance = check.saving_account()
                 
                 if amount <= CheckingBalance:
-                    CheckingBalance -= amount
-                    SavingsBalance += amount
+                    Bank.logged_user["checking"] -= amount
+                    Bank.logged_user["savings"] += amount
                     print(f"Transfer completed✅,\n[your Savings account balance is {SavingsBalance}$💵 .]\n[your Checking account balance is {CheckingBalance}$💸 .]\n")
+                    Bank.save_users()
                     user_input = input("Press 'Enter' to return to transfer to menu📃 ")
 
                 #If the balance of the account you want to transfer from is less than the amount you put:
@@ -275,8 +359,9 @@ class Transfer:
                 CheckingBalance = check.checking_account()
 
                 if amount <= CheckingBalance:
-                    CheckingBalance -= amount
+                    Bank.logged_user["checking"] -= amount
                     print(f"Transfer completed, your Checking account balance is {CheckingBalance} 💵")
+                    Bank.save_users()
                     user_input = input("Press 'Enter' to return to transfer to menu📃 ")
 
                 #If the balance of the account you want to transfer from is less than the amount you put:
@@ -310,9 +395,10 @@ class Transfer:
                 CheckingBalance = check.checking_account()
                 SavingsBalance = check.saving_account()
                 if amount <= SavingsBalance:
-                    CheckingBalance += amount
-                    SavingsBalance -= amount
+                    Bank.logged_user["checking"] += amount
+                    Bank.logged_user["savings"] -= amount
                     print(f"Transfer completed✅,\n[your Checking account balance is {CheckingBalance}$💵 .]\n[your Savings account balance is {SavingsBalance}$💸 .]\n")
+                    Bank.save_users()
                     user_input = input("Press 'Enter' to return to transfer to menu📃 ")
 
                 #If the balance of the account you want to transfer from is less than the amount you put:
@@ -329,8 +415,9 @@ class Transfer:
                 SavingsBalance = check.saving_account()
                 
                 if amount <= SavingsBalance:
-                    SavingsBalance -= amount
+                    Bank.logged_user["savings"] -= amount
                     print(f"Transfer completed✅, your Savings account balance {SavingsBalance}$")
+                    Bank.save_users()
                     user_input = input("Press 'Enter' to return to transfer to menu📃 ")
 
                 #If the balance of the account you want to transfer from is less than the amount you but:
@@ -367,6 +454,7 @@ class overDraftProtection:
 
 # --------------- Main menu Page ---------------#
     def main():
+        Bank.load_users()
         is_running = True
         while is_running:
             print("\n\n======================")
