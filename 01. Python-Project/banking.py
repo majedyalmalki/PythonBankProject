@@ -10,7 +10,7 @@ class Bank:
     def login():
         username = input("Username: ").lower()
         password = input("Password: ")
-        print(f"\n\nWelcome back {username} !!")
+        print(f"\n\nWelcome back {username} 👋!!")
     
     #For register
     def register():
@@ -28,7 +28,7 @@ class AddNewCustomer:
     def createAccounts_page():
         is_running = True
         while is_running:
-            print("\n Hello")
+            print("\n\n## Which account do you want to create? ##")
             print("1. Create checking account")
             print("2. Create savings account")
             print("3. Exit")
@@ -52,13 +52,13 @@ class AddNewCustomer:
 
     #To create checking account
     def create_checking_account():
-        print("Your checking account created successfully✅")
-        user_input = input("Press 'Enter' to return to main menu 🔙 ")
+        print("\nYour checking account created successfully✅")
+        user_input = input("Press 'Enter' to return to creating menu 🔙 ")
 
     #To create savings account
     def create_saving_account():
-        print("Your saving account created successfully✅")
-        user_input = input("Press 'Enter' to return to main menu 🔙 ")
+        print("\nYour saving account created successfully✅")
+        user_input = input("Press 'Enter' to return to creating menu 🔙 ")
 
 
 #Class 3
@@ -71,7 +71,7 @@ class check:
 
     #Check for Savings account balance
     def saving_account():
-        saving_balance = 150
+        saving_balance = 99
         return saving_balance 
 
 # --------------------------------------------------------------#
@@ -230,8 +230,8 @@ class Transfer:
                     print("You don't have this amount of money ❌!!")
                 
                 #If user enter a choice not on the list
-                else:
-                    print("Enter a valid choice !!")
+            else:
+                print("Enter a valid choice !!")
 
 #-------------------------------------------------------------------------------------------------------------------------------------------#
 
@@ -256,8 +256,8 @@ class Transfer:
                 is_running = False
 
             #If user enter a choice not on the list
-            else:
-                print("Enter a valid choice !!")
+        else:
+            print("Enter a valid choice !!")
 
 # ----------------------------------------------------------------------------#
 
