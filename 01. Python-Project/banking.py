@@ -31,7 +31,8 @@ class AddNewCustomer:
             print("\n\n## Which account do you want to create? ##")
             print("1. Create checking account")
             print("2. Create savings account")
-            print("3. Exit")
+            print("3. Create both accounts (Checking & savings)")
+            print("4. Exit")
             user_input = input("Enter your choice: ")
             
             #For Choice 1
@@ -41,9 +42,13 @@ class AddNewCustomer:
             #For Choice 2
             elif user_input == "2":
                 AddNewCustomer.create_saving_account()
+
+            #For Choice 3
+            elif user_input == "3":
+                AddNewCustomer.creating_both_accounts()
             
             #For exiting
-            elif user_input =="3":
+            elif user_input =="4":
                 is_running = False
                 
             #If user enter a choice not on the list
@@ -59,6 +64,10 @@ class AddNewCustomer:
     def create_saving_account():
         print("\nYour saving account created successfully✅")
         user_input = input("Press 'Enter' to return to creating menu 🔙 ")
+        
+    def creating_both_accounts():
+        print("\nYour both accounts created successfully✅")
+        user_input = input("Press 'Enter' to return to creating menu 🔙 ")
 
 
 #Class 3
@@ -66,12 +75,12 @@ class AddNewCustomer:
 class check:
     #Check for Checking account balance
     def checking_account():
-        checking_balance = 200
+        checking_balance = 7
         return checking_balance
 
     #Check for Savings account balance
     def saving_account():
-        saving_balance = 99
+        saving_balance = 3
         return saving_balance 
 
 # --------------------------------------------------------------#
@@ -83,7 +92,7 @@ class Withdraw:
         is_running = True
         Bank.login()
         while is_running:
-            print("💰Which account do you want to withdraw from?💰")
+            print("\n\n💰Which account do you want to withdraw from?💰")
             print("1️⃣. Checking Account ")
             print("2️⃣. Savings Account")
             print("3️⃣. Back to the past menu🔙")
@@ -97,6 +106,17 @@ class Withdraw:
                 
                 if amount > 100:
                     print("You cannot withdraw more than 100$ !!\n")
+                    
+                #------------------------ Overdraft ----------------------------#
+                elif balance <= 0 and balance >= -100:
+                    balance -= amount + 35
+                    if balance < -100:
+                        print(f"⛔Your account has been disabled for overdraft two times⛔\nYour new balance is: {balance}")
+                    else:
+                        print(f"35$ overdraft, your new account balance is: {balance}")
+                    user_input = input("Press 'Enter' to return to withdraw menu📃 ")
+                #--------------------------------------------------------------------------#
+
                 elif amount <= balance:
                     balance -= amount  #To decrease the amount from balance account
                     print(f"Withdraw completed successfully✅, your new checking account balance is: {balance}$💵")
@@ -111,6 +131,18 @@ class Withdraw:
                 balance = check.saving_account()
                 if amount > 100:
                     print("You cannot withdraw more than 100$ !!\n")
+
+                #------------------------ Overdraft ----------------------------#
+                elif balance <= 0 and balance >= -100:
+                    balance -= amount + 35
+                    if balance < -100:
+                        print(f"⛔Your account has been disabled for overdraft two times⛔\nYour new balance is: {balance}")
+                    else:
+                        print(f"35$ overdraft, your new account balance is: {balance}")
+                    user_input = input("Press 'Enter' to return to withdraw menu📃 ")
+                #--------------------------------------------------------------------------#
+
+
                 elif amount <= balance:
                     balance -= amount  #To decrease the amount from balance account
                     print(f"Withdraw completed successfully✅, your new saving account balance is: {balance}$")
@@ -277,7 +309,6 @@ class Transfer:
                 amount = float(input("Enter the amount💲: "))
                 CheckingBalance = check.checking_account()
                 SavingsBalance = check.saving_account()
-
                 if amount <= SavingsBalance:
                     CheckingBalance += amount
                     SavingsBalance -= amount
@@ -285,7 +316,7 @@ class Transfer:
                     user_input = input("Press 'Enter' to return to transfer to menu📃 ")
 
                 #If the balance of the account you want to transfer from is less than the amount you put:
-                elif amount > CheckingBalance:
+                elif amount > SavingsBalance:
                     print("You don't have this amount of money ❌!!")
 
 #----------------------------------------------------------------------------------------------------------------------------------#
@@ -319,39 +350,49 @@ class Transfer:
 #Class 7
 # --------------- FOR OVER DRAFT PROTECTION ---------------#
 class overDraftProtection:
-    pass
+    # checking_over = check.checking_account()
+    # saving_over = check.checking_account()
+    
+    # if checking_over < 0:
+    #     checking_over - 35
+    #     print("Your checking account is charged 35$ for overdraft !!")
+        
+    # if saving_over < 0:
+    #     saving_over - 35
+    #     print("Your savings account is charged 35$ for overdraft !!")
+    
 # ---------------------------------------------------------#
 
 
 
 # --------------- Main menu Page ---------------#
-def main():
-    is_running = True
-    while is_running:
-        print("\n\n======================")
-        print("Welcome to the Bank :)")
-        print("======================")
-        print("1: Withdraw")
-        print("2: Deposit")
-        print("3: Transfer")
-        print("4: Create checking & savings accounts")
-        print("5: Register main account")
-        print("6: Exit")
-        user_input = input("Enter your choice: ")
-        if user_input == "1":
-            Withdraw.withdraw_money()
-        elif user_input == "2":
-            Deposit.deposit_money()
-        elif user_input == "3":
-            Transfer.transfer_from()
-        elif user_input == "4":
-            AddNewCustomer.createAccounts_page()
-        elif user_input == "5":
-            Bank.register()
-        elif user_input == "6":
-            is_running = False
-        else: print("Enter a valid choice !!")
-    print("Have a good day sir 😉")
+    def main():
+        is_running = True
+        while is_running:
+            print("\n\n======================")
+            print("Welcome to the Bank :)")
+            print("======================")
+            print("1: Withdraw")
+            print("2: Deposit")
+            print("3: Transfer")
+            print("4: Create checking & savings accounts")
+            print("5: Register main account")
+            print("6: Exit")
+            user_input = input("Enter your choice: ")
+            if user_input == "1":
+                Withdraw.withdraw_money()
+            elif user_input == "2":
+                Deposit.deposit_money()
+            elif user_input == "3":
+                Transfer.transfer_from()
+            elif user_input == "4":
+                AddNewCustomer.createAccounts_page()
+            elif user_input == "5":
+                Bank.register()
+            elif user_input == "6":
+                is_running = False
+            else: print("Enter a valid choice !!")
+        print("Have a good day sir 😉")
 # # -----------------------------------------#
 
-main()
+    main()
