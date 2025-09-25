@@ -1,1 +1,3 @@
 id,username,password,checking,savings,overdraft_count
+1000,majed,711,10.0,20.0,0
+1000,majed,711,False,False,0

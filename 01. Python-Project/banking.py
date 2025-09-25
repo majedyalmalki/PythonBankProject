@@ -38,7 +38,6 @@ class Bank:
                 Bank.users.append(row)
     #For Login
     def login():
-        cred = None
         while True:
             username = input("Username: ").lower()
             password = input("Password: ")

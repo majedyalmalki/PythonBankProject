@@ -12,6 +12,23 @@ and its digital services are constantly being developed
 <ul><li>Basic Error Handling</li></ul>
 
 
+<h3>Features ⭐:</h3>
+
+| **Feature**                  | **Description**                                                                                              |
+|------------------------------|--------------------------------------------------------------------------------------------------------------|
+| User Registration            | Allows new users to create an account with a username and password.                                        |
+| User Login                   | Authenticates users by checking their username and password.                                               |
+| Create Checking Account       | Enables users to open a checking account if they don't already have one.                                   |
+| Create Savings Account        | Enables users to open a savings account if they don't already have one.                                    |
+| Create Both Accounts          | Allows users to create both checking and savings accounts simultaneously.                                   |
+| Check Account Balance         | Users can check the balance of their checking or savings accounts.                                         |
+| Withdraw Money               | Users can withdraw funds from their checking or savings account, with overdraft protection.                 |
+| Deposit Money                | Users can deposit funds into their checking or savings accounts.                                           |
+| Transfer Funds                | Users can transfer money between their checking and savings accounts or to another customer's account.     |
+| Overdraft Management          | Applies an overdraft fee when users attempt to withdraw more than their available balance.                 |
+| User Data Persistence         | Stores user data in a CSV file, enabling data retrieval and persistence across sessions.                    |
+
+
 <h3>Challenges 📃</h3>
 <p>I faced some challenges that make an issues in UX,
  like how to link, update, and add the data in code with 
